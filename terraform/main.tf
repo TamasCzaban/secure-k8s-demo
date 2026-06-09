@@ -57,7 +57,7 @@ resource "aws_route_table_association" "public" {
 
 resource "aws_security_group" "k3s" {
   name        = "secure-k8s-sg"
-  description = "k3s node — SSH and API restricted to operator IP only"
+  description = "k3s node - SSH and API restricted to operator IP only"
   vpc_id      = aws_vpc.main.id
 
   ingress {
