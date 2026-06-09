@@ -21,7 +21,7 @@ spec:
         fsGroup: 999
       containers:
         - name: scorer
-          image: DOCKERHUB_USERNAME/vuln-scorer:latest
+          image: czabantamas/vuln-scorer:latest
           ports:
             - containerPort: 8501
           env:
