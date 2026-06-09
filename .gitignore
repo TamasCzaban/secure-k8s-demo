@@ -1,0 +1,15 @@
+# Terraform state — never commit
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+
+# SSH keys — never commit private key
+ssh/operator
+ssh/*.pem
+
+# Local overrides
+*.auto.tfvars
+override.tf
