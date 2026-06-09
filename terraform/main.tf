@@ -77,9 +77,9 @@ resource "aws_security_group" "k3s" {
   }
 
   ingress {
-    description = "Streamlit scorer - public web app"
-    from_port   = 8501
-    to_port     = 8501
+    description = "Streamlit scorer - NodePort 30001"
+    from_port   = 30001
+    to_port     = 30001
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
