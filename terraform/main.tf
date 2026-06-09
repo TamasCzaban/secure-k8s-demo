@@ -76,6 +76,14 @@ resource "aws_security_group" "k3s" {
     cidr_blocks = [var.your_ip]
   }
 
+  ingress {
+    description = "Streamlit scorer - public web app"
+    from_port   = 8501
+    to_port     = 8501
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

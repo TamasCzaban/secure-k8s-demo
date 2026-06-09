@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scorer
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scorer
+  template:
+    metadata:
+      labels:
+        app: scorer
+    spec:
+      serviceAccountName: app-sa
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+        fsGroup: 999
+      containers:
+        - name: scorer
+          image: DOCKERHUB_USERNAME/vuln-scorer:latest
+          ports:
+            - containerPort: 8501
+          env:
+            - name: NVD_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: scorer-secret
+                  key: nvd-api-key
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

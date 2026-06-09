@@ -12,6 +12,8 @@ spec:
     - ports:
         - protocol: TCP
           port: 80
+        - protocol: TCP
+          port: 8501
   egress:
     - ports:
         - protocol: TCP
