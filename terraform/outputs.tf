@@ -1,6 +1,6 @@
 output "ec2_public_ip" {
   description = "Public IP of the k3s node — SSH target"
-  value       = aws_instance.k3s_node.public_ip
+  value       = aws_eip.k3s_node.public_ip
 }
 
 output "ec2_instance_id" {

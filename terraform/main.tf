@@ -84,6 +84,14 @@ resource "aws_security_group" "k3s" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "HTTP - Traefik ingress"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -113,7 +121,7 @@ data "aws_ami" "amazon_linux_2023" {
 
 resource "aws_instance" "k3s_node" {
   ami                    = data.aws_ami.amazon_linux_2023.id
-  instance_type          = "t3.micro"
+  instance_type          = "t3.small"
   subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.k3s.id]
   iam_instance_profile   = aws_iam_instance_profile.k3s.name
@@ -128,6 +136,14 @@ resource "aws_instance" "k3s_node" {
   }
 
   tags = { Name = "secure-k8s-node" }
+}
+
+# ── Elastic IP ───────────────────────────────────────────────────────────────
+
+resource "aws_eip" "k3s_node" {
+  instance = aws_instance.k3s_node.id
+  domain   = "vpc"
+  tags     = { Name = "secure-k8s-eip" }
 }
 
 # ── SSH Key Pair ──────────────────────────────────────────────────────────────
